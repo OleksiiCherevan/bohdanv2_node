@@ -69,10 +69,10 @@ app.get("/works", (req, res) => {
 });
 
 app.delete("/works", (req, res) => {
-    const { date, time, name } = req.body;
-
-    removeWorkByDateAndTime(date, time, name)
-        .then((res) => {
+    const { date, time, name, points, workersToWork } = req.body;
+    console.log(req.body);
+    removeWorkByDateAndTime(date, time, name, points, workersToWork )
+        .then((_res) => {
             res.json({ message: "OK" });
         })
         .catch(e => {
