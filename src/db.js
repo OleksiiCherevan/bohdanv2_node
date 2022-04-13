@@ -90,4 +90,16 @@ const addWork = async (work) => {
     }
 }
 
-module.exports = { isValidUser, getUsers, addWork, getWorks };
+const removeWorkByDateAndTime = async (date, time) => {
+    try {
+        await CLIENT.connect();
+        const worksCollection = await CLIENT.db().collection("works");
+        let status = await worksCollection.deleteOne({date: date, time: time})
+        
+        console.log(status);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+module.exports = { isValidUser, getUsers, addWork, getWorks, removeWorkByDateAndTime };

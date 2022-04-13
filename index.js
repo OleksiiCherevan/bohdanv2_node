@@ -2,10 +2,18 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-const { isValidUser, getUsers, addWork, getWorks } = require("./src/db");
-const { convertWorksToDateWorks, convertWorksToUsersWithPoints } = require("./src/util")
+const {
+    isValidUser,
+    getUsers,
+    addWork,
+    getWorks,
+    removeWorkByDateAndTime,
+} = require("./src/db");
+const {
+    convertWorksToDateWorks,
+    convertWorksToUsersWithPoints,
+} = require("./src/util");
 const { token } = require("./store/token.json");
-
 
 const app = express();
 const port = 3001;
@@ -56,22 +64,37 @@ app.get("/works", (req, res) => {
         .catch((e) => {});
 });
 
+app.delete("/works", (req, res) => {
+    const { date, time } = req.body;
+
+    removeWorkByDateAndTime(date, time)
+        .then((res) => {
+            res.json({ message: "OK", ...body });
+        })
+        .catch(console.log);
+});
+
 app.get("/date_works", (req, res) => {
     getWorks()
         .then((works) => {
-            const dateWorks = convertWorksToDateWorks(works)
-            res.json(dateWorks)
+            const dateWorks = convertWorksToDateWorks(works);
+            res.json(dateWorks);
         })
-        .catch((e) => {console.log(e);});
+        .catch((e) => {
+            console.log(e);
+        });
 });
 
 app.get("/users_with_points", (req, res) => {
     getWorks()
         .then((works) => {
-            const usersWithPoints = convertWorksToUsersWithPoints(works)
-            res.json(usersWithPoints)
+            convertWorksToUsersWithPoints(works)
+                .then((usersWithPoints) => res.json(usersWithPoints))
+                .catch(console.log);
         })
-        .catch((e) => {console.log(e);});
+        .catch((e) => {
+            console.log(e);
+        });
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
