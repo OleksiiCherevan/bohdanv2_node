@@ -44,6 +44,10 @@ app.use("/login", (req, res, next) => {
         });
 });
 
+app.get("/", (req, res) => {
+    res.send("Hello world!")
+})
+
 app.get("/users", (req, res) => {
     getUsers()
         .then((users) => res.send(JSON.stringify(users)))
