@@ -16,7 +16,7 @@ const {
 const { token } = require("./store/token.json");
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
