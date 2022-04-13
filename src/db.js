@@ -90,11 +90,11 @@ const addWork = async (work) => {
     }
 }
 
-const removeWorkByDateAndTime = async (date, time) => {
+const removeWorkByDateAndTime = async (date, time, name) => {
     try {
         await CLIENT.connect();
         const worksCollection = await CLIENT.db().collection("works");
-        let status = await worksCollection.deleteOne({date: date, time: time})
+        let status = await worksCollection.deleteOne({date: date, time: time, name: name})
         
         console.log(status);
     } catch (e) {
