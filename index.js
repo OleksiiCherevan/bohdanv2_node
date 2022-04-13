@@ -73,9 +73,11 @@ app.delete("/works", (req, res) => {
 
     removeWorkByDateAndTime(date, time, name)
         .then((res) => {
-            res.json({ message: "OK", ...body });
+            res.json({ message: "OK" });
         })
-        .catch(console.log);
+        .catch(e => {
+            res.json({ message: "NOT OK" })
+        });
 });
 
 app.get("/date_works", (req, res) => {
